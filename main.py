@@ -2,8 +2,8 @@ import boto3
 
 if __name__ == "__main__":
 
-    bucket='bucket'
-    photo='inputtext.jpg'
+    bucket='rene-tarea7'
+    photo='tarea-1.jpg'
 
     client=boto3.client('rekognition')
 
