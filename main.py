@@ -24,7 +24,7 @@ if __name__ == "__main__":
     controlText = parseText(controlDetection['TextDetections'])
     logs = []
 
-    for i in range(1, 11):
+    for i in range(1, 13):
         print("Test ID:", i)
         logs.append("Test ID: "+ str(i))
         print("Hora de la prueba:",datetime.datetime.now())
