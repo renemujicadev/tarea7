@@ -11,7 +11,8 @@ source venv/bin/activate
 ````
 pip install -r requirements.txt
 ````
-3. Ejecutar
+3. Configurar bucket S3 (linea 16) y profile de AWS (linea 19)
+4. Ejecutar
 ````
 python3 main.py
 ````
