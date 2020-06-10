@@ -1,24 +1,33 @@
 import boto3
+import datetime
+
+def parseText(textDetections):
+    detectedText = ""
+    for text in textDetections:
+        if not 'ParentId' in text:
+            detectedText += text['DetectedText'] + " "
+
+    return detectedText
+
 
 if __name__ == "__main__":
 
     bucket='rene-tarea7'
-    photo='tarea-1.jpg'
-
-    client=boto3.client('rekognition')
+    photo='tarea-{}.jpg'
+    control='control.png'
+    session = boto3.Session(profile_name="renemujica-usm")
+    client=session.client('rekognition')
 
   
-    response=client.detect_text(Image={'S3Object':{'Bucket':bucket,'Name':photo}})
+    controlDetection=client.detect_text(Image={'S3Object':{'Bucket':bucket,'Name':control}})
+    controlText = parseText(controlDetection['TextDetections'])
 
-                        
-    textDetections=response['TextDetections']
-    print response
-    print 'Matching faces'
-    for text in textDetections:
-            print 'Detected text:' + text['DetectedText']
-            print 'Confidence: ' + "{:.2f}".format(text['Confidence']) + "%"
-            print 'Id: {}'.format(text['Id'])
-            if 'ParentId' in text:
-                print 'Parent Id: {}'.format(text['ParentId'])
-            print 'Type:' + text['Type']
-            print
+    for i in range(1, 11):
+        print("Test ID:", i)
+        print("Hora de la prueba:",datetime.datetime.now())
+        testDetection = client.detect_text(Image={'S3Object':{'Bucket':bucket,'Name':photo.format(i)}})
+        detectedText = parseText(testDetection['TextDetections'])
+        print("Texto detectado:", detectedText.lower())
+        print("iguales?", controlText.lower().strip() == detectedText.lower().strip())
+        print("====")
+    
